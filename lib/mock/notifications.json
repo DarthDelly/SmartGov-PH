@@ -1,0 +1,72 @@
+[
+  {
+    "id": "notif-001",
+    "permitId": "REQ-2025-001",
+    "permitTitle": "Barangay Clearance",
+    "applicant": "Maria Santos",
+    "status": "done",
+    "message": "Your Barangay Clearance request is ready for pickup at the barangay hall.",
+    "read": false,
+    "createdAt": "2025-03-12T14:00:00Z"
+  },
+  {
+    "id": "notif-002",
+    "permitId": "REQ-2025-002",
+    "permitTitle": "Certificate of Indigency",
+    "applicant": "Jose Reyes",
+    "status": "processing",
+    "message": "Your Certificate of Indigency is currently being reviewed by the barangay secretary.",
+    "read": false,
+    "createdAt": "2025-03-11T10:30:00Z"
+  },
+  {
+    "id": "notif-003",
+    "permitId": "REQ-2025-003",
+    "permitTitle": "Residency Certificate",
+    "applicant": "Ana dela Cruz",
+    "status": "received",
+    "message": "Your Residency Certificate request has been received and is queued for processing.",
+    "read": false,
+    "createdAt": "2025-03-13T09:05:00Z"
+  },
+  {
+    "id": "notif-004",
+    "permitId": "REQ-2025-004",
+    "permitTitle": "Business Clearance",
+    "applicant": "Ramon Garcia",
+    "status": "rejected",
+    "message": "Your Business Clearance request was rejected. Please visit the barangay hall for details.",
+    "read": true,
+    "createdAt": "2025-03-09T11:00:00Z"
+  },
+  {
+    "id": "notif-005",
+    "permitId": "REQ-2025-007",
+    "permitTitle": "Certificate of Indigency",
+    "applicant": "Elena Torres",
+    "status": "done",
+    "message": "Your Certificate of Indigency is ready for pickup. Please bring a valid ID.",
+    "read": true,
+    "createdAt": "2025-03-07T09:30:00Z"
+  },
+  {
+    "id": "notif-006",
+    "permitId": "REQ-2025-005",
+    "permitTitle": "Barangay Clearance",
+    "applicant": "Liza Mendoza",
+    "status": "processing",
+    "message": "Your Barangay Clearance request is being processed. Estimated completion in 1-2 days.",
+    "read": true,
+    "createdAt": "2025-03-12T16:00:00Z"
+  },
+  {
+    "id": "notif-007",
+    "permitId": "REQ-2025-008",
+    "permitTitle": "Residency Certificate",
+    "applicant": "Mark Villanueva",
+    "status": "received",
+    "message": "Your Residency Certificate request has been received. You will be notified once processing begins.",
+    "read": false,
+    "createdAt": "2025-03-14T08:15:00Z"
+  }
+]

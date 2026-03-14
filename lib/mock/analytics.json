@@ -1,0 +1,36 @@
+{
+  "permitsByType": [
+    { "name": "Barangay Clearance",      "count": 58, "month": "March 2025" },
+    { "name": "Residency Certificate",   "count": 34, "month": "March 2025" },
+    { "name": "Certificate of Indigency","count": 27, "month": "March 2025" },
+    { "name": "Business Clearance",      "count": 15, "month": "March 2025" },
+    { "name": "Barangay ID",             "count": 10, "month": "March 2025" }
+  ],
+  "requestsByMonth": [
+    { "month": "Oct", "requests": 88 },
+    { "month": "Nov", "requests": 102 },
+    { "month": "Dec", "requests": 74 },
+    { "month": "Jan", "requests": 95 },
+    { "month": "Feb", "requests": 118 },
+    { "month": "Mar", "requests": 144 }
+  ],
+  "statusDistribution": [
+    { "name": "Completed", "value": 72, "color": "#10B981" },
+    { "name": "Processing", "value": 38, "color": "#3B82F6" },
+    { "name": "Received",   "value": 24, "color": "#F59E0B" },
+    { "name": "Rejected",   "value": 10, "color": "#EF4444" }
+  ],
+  "barangayVolume": [
+    { "barangay": "Brgy. San Isidro",   "requests": 42, "completed": 36 },
+    { "barangay": "Brgy. Poblacion",    "requests": 35, "completed": 28 },
+    { "barangay": "Brgy. San Roque",    "requests": 28, "completed": 24 },
+    { "barangay": "Brgy. Sta. Cruz",    "requests": 21, "completed": 18 },
+    { "barangay": "Brgy. Bagumbayan",   "requests": 18, "completed": 14 }
+  ],
+  "metrics": {
+    "activeBarangays": 12,
+    "totalRequestsThisMonth": 144,
+    "flaggedConcerns": 6,
+    "avgProcessingDays": 2.4
+  }
+}

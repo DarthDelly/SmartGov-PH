@@ -1,0 +1,82 @@
+[
+  {
+    "id": "REQ-2025-001",
+    "type": "clearance",
+    "title": "Barangay Clearance",
+    "applicant": "Maria Santos",
+    "status": "done",
+    "submittedAt": "2025-03-10T08:30:00Z",
+    "updatedAt": "2025-03-12T14:00:00Z",
+    "barangay": "Brgy. San Isidro"
+  },
+  {
+    "id": "REQ-2025-002",
+    "type": "indigency",
+    "title": "Certificate of Indigency",
+    "applicant": "Jose Reyes",
+    "status": "processing",
+    "submittedAt": "2025-03-11T10:15:00Z",
+    "updatedAt": "2025-03-11T10:15:00Z",
+    "barangay": "Brgy. San Isidro"
+  },
+  {
+    "id": "REQ-2025-003",
+    "type": "residency",
+    "title": "Residency Certificate",
+    "applicant": "Ana dela Cruz",
+    "status": "received",
+    "submittedAt": "2025-03-13T09:00:00Z",
+    "updatedAt": "2025-03-13T09:00:00Z",
+    "barangay": "Brgy. San Isidro"
+  },
+  {
+    "id": "REQ-2025-004",
+    "type": "business",
+    "title": "Business Clearance",
+    "applicant": "Ramon Garcia",
+    "status": "rejected",
+    "submittedAt": "2025-03-08T13:45:00Z",
+    "updatedAt": "2025-03-09T11:00:00Z",
+    "barangay": "Brgy. San Isidro"
+  },
+  {
+    "id": "REQ-2025-005",
+    "type": "clearance",
+    "title": "Barangay Clearance",
+    "applicant": "Liza Mendoza",
+    "status": "processing",
+    "submittedAt": "2025-03-12T15:20:00Z",
+    "updatedAt": "2025-03-12T15:20:00Z",
+    "barangay": "Brgy. Poblacion"
+  },
+  {
+    "id": "REQ-2025-006",
+    "type": "id",
+    "title": "Barangay ID",
+    "applicant": "Carlo Bautista",
+    "status": "received",
+    "submittedAt": "2025-03-14T07:50:00Z",
+    "updatedAt": "2025-03-14T07:50:00Z",
+    "barangay": "Brgy. Poblacion"
+  },
+  {
+    "id": "REQ-2025-007",
+    "type": "indigency",
+    "title": "Certificate of Indigency",
+    "applicant": "Elena Torres",
+    "status": "done",
+    "submittedAt": "2025-03-05T11:00:00Z",
+    "updatedAt": "2025-03-07T09:30:00Z",
+    "barangay": "Brgy. San Isidro"
+  },
+  {
+    "id": "REQ-2025-008",
+    "type": "residency",
+    "title": "Residency Certificate",
+    "applicant": "Mark Villanueva",
+    "status": "received",
+    "submittedAt": "2025-03-14T08:10:00Z",
+    "updatedAt": "2025-03-14T08:10:00Z",
+    "barangay": "Brgy. San Roque"
+  }
+]

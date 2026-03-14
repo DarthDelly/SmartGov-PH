@@ -1,0 +1,176 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useAuthStore, type Role } from "@/lib/store/auth-store";
+import { Building2, Sun } from "lucide-react";
+
+const ROLE_OPTIONS: { value: Role; label: string; description: string }[] = [
+  { value: "resident", label: "Resident", description: "Access permits, concerns & notifications" },
+  { value: "staff", label: "Barangay Staff", description: "Manage requests, residents & blotter" },
+  { value: "admin", label: "Municipal Admin", description: "Analytics, monitoring & oversight" },
+];
+
+export default function LoginPage() {
+  const router = useRouter();
+  const { login } = useAuthStore();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [selectedRole, setSelectedRole] = useState<Role>("resident");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    // Simulate brief loading, then set role and redirect
+    await new Promise((r) => setTimeout(r, 600));
+
+    const names: Record<Role, string> = {
+      resident: "Maria Santos",
+      staff: "Juan dela Cruz",
+      admin: "Ana Reyes",
+    };
+    const barangays: Record<Role, string> = {
+      resident: "Brgy. San Isidro",
+      staff: "Brgy. San Isidro",
+      admin: "Municipality of Calamba",
+    };
+
+    login(selectedRole, {
+      name: names[selectedRole],
+      barangay: barangays[selectedRole],
+    });
+
+    router.push("/dashboard");
+  };
+
+  return (
+    <div className="w-full max-w-md animate-fade-in">
+      {/* Logo + wordmark */}
+      <div className="flex flex-col items-center mb-8 gap-3">
+        <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--brand-600)] shadow-lg">
+          <Sun className="text-white w-8 h-8" />
+          <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#EF4444] border-2 border-white dark:border-zinc-950" />
+        </div>
+        <div className="text-center">
+          <h1 className="font-jakarta text-2xl font-bold text-[var(--text-primary)] tracking-tight">
+            SmartGov PH
+          </h1>
+          <p className="text-sm text-[var(--text-muted)] font-jakarta italic mt-0.5">
+            Padayon sa Paglambo
+          </p>
+        </div>
+      </div>
+
+      {/* Login card */}
+      <Card className="shadow-md">
+        <form onSubmit={handleSignIn}>
+          <CardContent className="pt-6 space-y-4">
+            {/* Email */}
+            <div className="space-y-1.5">
+              <Label htmlFor="email" className="text-xs font-medium text-[var(--text-secondary)]">
+                Email address
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
+                required
+              />
+            </div>
+
+            {/* Password */}
+            <div className="space-y-1.5">
+              <Label htmlFor="password" className="text-xs font-medium text-[var(--text-secondary)]">
+                Password
+              </Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+                required
+              />
+            </div>
+
+            {/* DEV role switcher */}
+            <div className="space-y-1.5 pt-1">
+              <div className="flex items-center gap-2">
+                <Label className="text-xs font-medium text-[var(--text-secondary)]">
+                  Role
+                </Label>
+                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 uppercase tracking-wide">
+                  Dev only
+                </span>
+              </div>
+              <Select
+                value={selectedRole}
+                onValueChange={(v) => setSelectedRole(v as Role)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {ROLE_OPTIONS.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      <div>
+                        <div className="font-medium">{opt.label}</div>
+                        <div className="text-xs text-[var(--text-muted)]">{opt.description}</div>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+
+          <CardFooter className="flex flex-col gap-3 pb-6">
+            <Button
+              type="submit"
+              className="w-full font-medium"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                  Signing in…
+                </span>
+              ) : (
+                "Sign in"
+              )}
+            </Button>
+
+            <p className="text-xs text-center text-[var(--text-muted)]">
+              SmartGov PH · Powered by Anthropic AI
+            </p>
+          </CardFooter>
+        </form>
+      </Card>
+
+      {/* Bottom tagline */}
+      <div className="flex items-center justify-center gap-2 mt-6 text-[var(--text-muted)]">
+        <Building2 className="w-3.5 h-3.5" />
+        <p className="text-xs">
+          Department of the Interior and Local Government
+        </p>
+      </div>
+    </div>
+  );
+}

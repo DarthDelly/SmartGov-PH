@@ -1,0 +1,17 @@
+[
+  { "id": "RES-001", "name": "Maria Santos",     "purok": "Purok 1", "status": "active",   "lastTransaction": "2025-03-12", "phone": "09171234567", "age": 34, "occupation": "Teacher" },
+  { "id": "RES-002", "name": "Jose Reyes",        "purok": "Purok 2", "status": "active",   "lastTransaction": "2025-03-11", "phone": "09281234567", "age": 52, "occupation": "Farmer" },
+  { "id": "RES-003", "name": "Ana dela Cruz",     "purok": "Purok 1", "status": "active",   "lastTransaction": "2025-03-13", "phone": "09191234567", "age": 27, "occupation": "Nurse" },
+  { "id": "RES-004", "name": "Ramon Garcia",      "purok": "Purok 3", "status": "inactive", "lastTransaction": "2025-01-08", "phone": "09301234567", "age": 61, "occupation": "Retired" },
+  { "id": "RES-005", "name": "Liza Mendoza",      "purok": "Purok 2", "status": "active",   "lastTransaction": "2025-03-12", "phone": "09151234567", "age": 43, "occupation": "Business Owner" },
+  { "id": "RES-006", "name": "Carlo Bautista",    "purok": "Purok 4", "status": "active",   "lastTransaction": "2025-03-14", "phone": "09221234567", "age": 19, "occupation": "Student" },
+  { "id": "RES-007", "name": "Elena Torres",      "purok": "Purok 1", "status": "active",   "lastTransaction": "2025-03-07", "phone": "09181234567", "age": 38, "occupation": "Housewife" },
+  { "id": "RES-008", "name": "Mark Villanueva",   "purok": "Purok 3", "status": "active",   "lastTransaction": "2025-03-14", "phone": "09291234567", "age": 25, "occupation": "Engineer" },
+  { "id": "RES-009", "name": "Rosa Fernandez",    "purok": "Purok 2", "status": "inactive", "lastTransaction": "2024-11-20", "phone": "09161234567", "age": 70, "occupation": "Retired" },
+  { "id": "RES-010", "name": "Pedro Aquino",      "purok": "Purok 4", "status": "active",   "lastTransaction": "2025-03-10", "phone": "09251234567", "age": 46, "occupation": "Driver" },
+  { "id": "RES-011", "name": "Gloria Pascual",    "purok": "Purok 1", "status": "active",   "lastTransaction": "2025-03-09", "phone": "09311234567", "age": 55, "occupation": "Vendor" },
+  { "id": "RES-012", "name": "Dennis Ocampo",     "purok": "Purok 3", "status": "active",   "lastTransaction": "2025-03-08", "phone": "09171124567", "age": 31, "occupation": "IT Professional" },
+  { "id": "RES-013", "name": "Marites Domingo",   "purok": "Purok 2", "status": "active",   "lastTransaction": "2025-03-06", "phone": "09281334567", "age": 48, "occupation": "Seamstress" },
+  { "id": "RES-014", "name": "Rodrigo Castillo",  "purok": "Purok 4", "status": "inactive", "lastTransaction": "2025-02-14", "phone": "09191434567", "age": 67, "occupation": "Retired" },
+  { "id": "RES-015", "name": "Nelia Soriano",     "purok": "Purok 1", "status": "active",   "lastTransaction": "2025-03-05", "phone": "09301534567", "age": 29, "occupation": "Social Worker" }
+]
