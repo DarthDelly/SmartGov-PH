@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAuthStore, type Role } from "@/lib/store/auth-store";
+import Link from "next/link";
 import { Building2, Sun } from "lucide-react";
 
 const ROLE_OPTIONS: { value: Role; label: string; description: string }[] = [
@@ -96,9 +97,17 @@ export default function LoginPage() {
 
             {/* Password */}
             <div className="space-y-1.5">
-              <Label htmlFor="password" className="text-xs font-medium text-[var(--text-secondary)]">
-                Password
-              </Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password" className="text-xs font-medium text-[var(--text-secondary)]">
+                  Password
+                </Label>
+                <Link
+                  href="/forgot-password"
+                  className="text-xs text-[var(--brand-600)] dark:text-[var(--brand-400)] hover:underline"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <Input
                 id="password"
                 type="password"
@@ -156,6 +165,16 @@ export default function LoginPage() {
                 "Sign in"
               )}
             </Button>
+
+            <p className="text-xs text-center text-[var(--text-muted)]">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/signup"
+                className="text-[var(--brand-600)] dark:text-[var(--brand-400)] font-medium hover:underline"
+              >
+                Sign up
+              </Link>
+            </p>
 
             <p className="text-xs text-center text-[var(--text-muted)]">
               SmartGov PH · Powered by Anthropic AI

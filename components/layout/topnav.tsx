@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Bell, Menu, ChevronRight, LogOut, Settings, User, Sun, Moon } from "lucide-react";
+import { Bell, ChevronRight, LogOut, Settings, User, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useAuthStore } from "@/lib/store/auth-store";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -79,15 +79,6 @@ export function Topnav({ onMenuClick }: TopnavProps) {
 
   return (
     <header className="sticky top-0 z-30 flex items-center h-14 px-4 gap-3 bg-white dark:bg-zinc-900 border-b border-[var(--surface-3)]">
-      {/* Hamburger — always visible on mobile, toggles sidebar on desktop */}
-      <button
-        onClick={onMenuClick}
-        className="flex items-center justify-center w-8 h-8 rounded-md hover:bg-[var(--surface-2)] dark:hover:bg-zinc-800 transition-colors"
-        aria-label="Toggle sidebar"
-      >
-        <Menu className="w-4 h-4 text-[var(--text-secondary)]" />
-      </button>
-
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-1 flex-1 min-w-0">
         {breadcrumbs.map((crumb, i) => (
