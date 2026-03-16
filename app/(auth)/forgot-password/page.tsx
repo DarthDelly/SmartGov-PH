@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Building2, Sun, Mail, ArrowLeft } from "lucide-react";
+import { Building2, Mail, ArrowLeft } from "lucide-react";
+import { AppLogo } from "@/components/ui/app-logo";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -22,57 +22,50 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="w-full max-w-md animate-fade-in">
-      {/* Logo + wordmark */}
-      <div className="flex flex-col items-center mb-8 gap-3">
-        <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--brand-600)] shadow-lg">
-          <Sun className="text-white w-8 h-8" />
-          <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#EF4444] border-2 border-white dark:border-zinc-950" />
-        </div>
-        <div className="text-center">
-          <h1 className="font-jakarta text-2xl font-bold text-[var(--text-primary)] tracking-tight">
-            SmartGov PH
-          </h1>
-          <p className="text-sm text-[var(--text-muted)] font-jakarta italic mt-0.5">
-            Padayon sa Paglambo
-          </p>
-        </div>
-      </div>
+    <div className="w-full max-w-lg animate-fade-in flex flex-col items-center gap-0">
 
-      <Card className="shadow-md">
+      {/* Logo */}
+      <AppLogo size="lg" />
+
+      {/* Card */}
+      <div className="w-full rounded-2xl border border-[var(--surface-3)] bg-white dark:bg-zinc-900 shadow-sm overflow-hidden">
+
         {sent ? (
-          <CardContent className="pt-8 pb-8 flex flex-col items-center gap-4 text-center">
-            <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[var(--brand-50)] dark:bg-[#1e3a8a20]">
+          /* ── Success state ── */
+          <div className="p-8 flex flex-col items-center gap-5 text-center">
+            <div className="flex items-center justify-center w-14 h-14 rounded-full bg-blue-50 dark:bg-blue-950/20">
               <Mail className="w-7 h-7 text-[var(--brand-600)] dark:text-[var(--brand-400)]" />
             </div>
             <div>
               <p className="font-jakarta font-semibold text-[var(--text-primary)] text-lg">
                 Check your inbox
               </p>
-              <p className="text-sm text-[var(--text-secondary)] mt-1 leading-relaxed">
+              <p className="text-sm text-[var(--text-secondary)] mt-1.5 leading-relaxed">
                 If an account exists for{" "}
-                <span className="font-medium text-[var(--text-primary)]">{email}</span>, you will receive a password reset link shortly.
+                <span className="font-medium text-[var(--text-primary)]">{email}</span>
+                , a reset link has been sent.
               </p>
             </div>
-            <Link href="/login" className="w-full mt-2">
-              <Button variant="outline" className="w-full gap-2">
+            <Link href="/login" className="w-full">
+              <Button variant="outline" className="w-full gap-2 h-10">
                 <ArrowLeft className="w-4 h-4" />
                 Back to sign in
               </Button>
             </Link>
-          </CardContent>
+          </div>
         ) : (
+          /* ── Form ── */
           <form onSubmit={handleSubmit}>
-            <CardContent className="pt-6 space-y-4">
-              <div>
-                <p className="font-jakarta font-semibold text-[var(--text-primary)] text-base leading-tight">
-                  Forgot your password?
-                </p>
-                <p className="text-xs text-[var(--text-muted)] mt-0.5 leading-relaxed">
-                  Enter your email and we&apos;ll send you a link to reset your password.
-                </p>
-              </div>
+            <div className="px-8 pt-7 pb-1 text-left">
+              <h2 className="font-jakarta font-semibold text-[var(--text-primary)] text-lg leading-snug">
+                Reset your password
+              </h2>
+              <p className="text-sm text-[var(--text-muted)] mt-0.5">
+                Enter your email and we&apos;ll send you a reset link.
+              </p>
+            </div>
 
+            <div className="px-8 pt-5 pb-2 space-y-4">
               <div className="space-y-1.5">
                 <Label htmlFor="email" className="text-xs font-medium text-[var(--text-secondary)]">
                   Email address
@@ -87,10 +80,10 @@ export default function ForgotPasswordPage() {
                   required
                 />
               </div>
-            </CardContent>
+            </div>
 
-            <CardFooter className="flex flex-col gap-3 pb-6">
-              <Button type="submit" className="w-full font-medium" disabled={isLoading}>
+            <div className="px-8 pb-8 pt-4 flex flex-col gap-3">
+              <Button type="submit" className="w-full font-medium h-10" disabled={isLoading}>
                 {isLoading ? (
                   <span className="flex items-center gap-2">
                     <span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
@@ -102,19 +95,14 @@ export default function ForgotPasswordPage() {
               </Button>
 
               <Link href="/login" className="w-full">
-                <Button variant="ghost" className="w-full gap-2 text-[var(--text-secondary)]" type="button">
+                <Button variant="ghost" className="w-full gap-2 h-10 text-[var(--text-secondary)]" type="button">
                   <ArrowLeft className="w-4 h-4" />
                   Back to sign in
                 </Button>
               </Link>
-            </CardFooter>
+            </div>
           </form>
         )}
-      </Card>
-
-      <div className="flex items-center justify-center gap-2 mt-6 text-[var(--text-muted)]">
-        <Building2 className="w-3.5 h-3.5" />
-        <p className="text-xs">Department of the Interior and Local Government</p>
       </div>
     </div>
   );

@@ -17,8 +17,9 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Sun,
+  User,
 } from "lucide-react";
+import { AppLogo } from "@/components/ui/app-logo";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/lib/store/auth-store";
 import { NAV_ITEMS_BY_ROLE } from "@/lib/constants/nav-items";
@@ -38,6 +39,19 @@ const ICON_MAP: Record<string, React.ElementType> = {
   MapPin,
   ShieldAlert,
   Settings,
+  User,
+};
+
+const ROLE_LABELS: Record<string, string> = {
+  resident: "Resident",
+  staff: "Barangay Staff",
+  admin: "Municipal Admin",
+};
+
+const ROLE_BADGE: Record<string, string> = {
+  resident: "bg-[var(--brand-100)] text-[var(--brand-600)] dark:bg-[#1e3a8a30] dark:text-[var(--brand-400)]",
+  staff:    "bg-green-100 text-green-700 dark:bg-green-950/30 dark:text-green-400",
+  admin:    "bg-purple-100 text-purple-700 dark:bg-purple-950/30 dark:text-purple-400",
 };
 
 interface SidebarProps {
@@ -63,6 +77,55 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
     router.push("/login");
   };
 
+  const renderNavLink = (item: (typeof navItems)[number]) => {
+    const Icon = ICON_MAP[item.icon];
+    const isActive =
+      pathname === item.href ||
+      (item.href !== "/dashboard" && pathname.startsWith(item.href));
+
+    const linkEl = (
+      <Link
+        key={item.href}
+        href={item.href}
+        className={cn(
+          "flex items-center gap-3 rounded-lg px-2 py-2 text-sm transition-all duration-150 group",
+          collapsed ? "justify-center" : "",
+          isActive
+            ? "bg-[var(--brand-50)] text-[var(--brand-600)] dark:bg-[#1e3a8a20] dark:text-[var(--brand-400)] font-medium"
+            : "text-[var(--text-secondary)] hover:bg-[var(--surface-2)] dark:hover:bg-zinc-800 hover:text-[var(--text-primary)]"
+        )}
+      >
+        {Icon && (
+          <Icon
+            className={cn(
+              "shrink-0 transition-colors",
+              collapsed ? "w-5 h-5" : "w-4 h-4",
+              isActive
+                ? "text-[var(--brand-600)] dark:text-[var(--brand-400)]"
+                : "text-[var(--text-muted)] group-hover:text-[var(--text-primary)]"
+            )}
+          />
+        )}
+        {!collapsed && <span className="truncate">{item.label}</span>}
+      </Link>
+    );
+
+    if (collapsed) {
+      return (
+        <Tooltip key={item.href}>
+          <TooltipTrigger asChild>{linkEl}</TooltipTrigger>
+          <TooltipContent side="right">{item.label}</TooltipContent>
+        </Tooltip>
+      );
+    }
+    return linkEl;
+  };
+
+  /* Split nav items: main items vs account/settings at the end */
+  const accountHrefs = new Set(["/account", "/settings"]);
+  const mainItems = navItems.filter((i) => !accountHrefs.has(i.href));
+  const accountItems = navItems.filter((i) => accountHrefs.has(i.href));
+
   return (
     <TooltipProvider delayDuration={200}>
       <aside
@@ -72,108 +135,74 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         )}
       >
         {/* Logo */}
-        <div
-          className={cn(
-            "flex items-center h-14 border-b border-[var(--surface-3)] shrink-0",
-            collapsed ? "justify-center px-0" : "px-4 gap-2.5"
-          )}
-        >
-          <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--brand-600)] shrink-0">
-            <Sun className="text-white w-4 h-4" />
-            <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#EF4444] border border-white dark:border-zinc-900" />
-          </div>
-          {!collapsed && (
-            <span className="font-jakarta font-bold text-sm text-[var(--text-primary)] truncate">
-              SmartGov PH
-            </span>
-          )}
+        <div className="flex items-center justify-center h-20 border-b border-[var(--surface-3)] shrink-0 px-3">
+          <AppLogo size="sm" collapsed={collapsed} />
         </div>
 
-        {/* Nav items */}
+        {/* Main nav */}
         <nav className="flex-1 overflow-y-auto py-3 space-y-0.5 px-2 scrollbar-thin">
-          {navItems.map((item) => {
-            const Icon = ICON_MAP[item.icon];
-            const isActive =
-              pathname === item.href ||
-              (item.href !== "/dashboard" && pathname.startsWith(item.href));
+          {mainItems.map(renderNavLink)}
 
-            const linkEl = (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-2 py-2 text-sm transition-all duration-150 group relative",
-                  collapsed ? "justify-center" : "",
-                  isActive
-                    ? "bg-[var(--brand-50)] text-[var(--brand-600)] dark:bg-[#1e3a8a20] dark:text-[var(--brand-400)] font-medium"
-                    : "text-[var(--text-secondary)] hover:bg-[var(--surface-2)] dark:hover:bg-zinc-800 hover:text-[var(--text-primary)]"
-                )}
-              >
-                {Icon && (
-                  <Icon
-                    className={cn(
-                      "shrink-0 transition-colors",
-                      collapsed ? "w-5 h-5" : "w-4 h-4",
-                      isActive
-                        ? "text-[var(--brand-600)] dark:text-[var(--brand-400)]"
-                        : "text-[var(--text-muted)] group-hover:text-[var(--text-primary)]"
-                    )}
-                  />
-                )}
-                {!collapsed && <span className="truncate">{item.label}</span>}
-              </Link>
-            );
+          {/* Divider before account/settings */}
+          <div className="pt-2 pb-1">
+            <Separator />
+          </div>
 
-            if (collapsed) {
-              return (
-                <Tooltip key={item.href}>
-                  <TooltipTrigger asChild>{linkEl}</TooltipTrigger>
-                  <TooltipContent side="right">{item.label}</TooltipContent>
-                </Tooltip>
-              );
-            }
-            return linkEl;
-          })}
+          {accountItems.map(renderNavLink)}
         </nav>
 
         <Separator />
 
-        {/* Bottom: settings + user + logout */}
+        {/* Bottom: user profile + logout */}
         <div className="py-3 px-2 space-y-0.5">
-          {/* Settings */}
+
+          {/* User row → /account */}
           {collapsed ? (
             <Tooltip>
               <TooltipTrigger asChild>
-                <button className="flex w-full items-center justify-center rounded-lg px-2 py-2 text-[var(--text-secondary)] hover:bg-[var(--surface-2)] dark:hover:bg-zinc-800 hover:text-[var(--text-primary)] transition-colors">
-                  <Settings className="w-5 h-5 text-[var(--text-muted)]" />
-                </button>
+                <Link
+                  href="/account"
+                  className={cn(
+                    "flex w-full items-center justify-center rounded-lg px-2 py-2 transition-colors",
+                    pathname === "/account"
+                      ? "bg-[var(--brand-50)] dark:bg-[#1e3a8a20]"
+                      : "hover:bg-[var(--surface-2)] dark:hover:bg-zinc-800"
+                  )}
+                >
+                  <Avatar className="w-7 h-7 shrink-0">
+                    <AvatarFallback className="text-xs">{initials}</AvatarFallback>
+                  </Avatar>
+                </Link>
               </TooltipTrigger>
-              <TooltipContent side="right">Settings</TooltipContent>
+              <TooltipContent side="right">
+                <p className="font-medium">{user.name}</p>
+                <p className="text-xs opacity-70">{ROLE_LABELS[role]}</p>
+              </TooltipContent>
             </Tooltip>
           ) : (
-            <button className="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--surface-2)] dark:hover:bg-zinc-800 hover:text-[var(--text-primary)] transition-colors">
-              <Settings className="w-4 h-4 text-[var(--text-muted)] shrink-0" />
-              <span>Settings</span>
-            </button>
-          )}
-
-          {/* User row */}
-          <div
-            className={cn(
-              "flex items-center rounded-lg px-2 py-2 gap-2.5",
-              collapsed ? "justify-center" : ""
-            )}
-          >
-            <Avatar className="w-7 h-7 shrink-0">
-              <AvatarFallback className="text-xs">{initials}</AvatarFallback>
-            </Avatar>
-            {!collapsed && (
+            <Link
+              href="/account"
+              className={cn(
+                "flex items-center rounded-lg px-2 py-2 gap-2.5 transition-colors",
+                pathname === "/account"
+                  ? "bg-[var(--brand-50)] dark:bg-[#1e3a8a20]"
+                  : "hover:bg-[var(--surface-2)] dark:hover:bg-zinc-800"
+              )}
+            >
+              <Avatar className="w-8 h-8 shrink-0">
+                <AvatarFallback className="text-xs font-semibold">{initials}</AvatarFallback>
+              </Avatar>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-[var(--text-primary)] truncate">{user.name}</p>
-                <p className="text-[10px] text-[var(--text-muted)] truncate">{user.barangay}</p>
+                <p className="text-xs font-semibold text-[var(--text-primary)] truncate leading-tight">{user.name}</p>
+                <span className={cn(
+                  "inline-flex mt-0.5 px-1.5 py-px rounded text-[9px] font-bold uppercase tracking-wide leading-tight",
+                  ROLE_BADGE[role]
+                )}>
+                  {ROLE_LABELS[role]}
+                </span>
               </div>
-            )}
-          </div>
+            </Link>
+          )}
 
           {/* Logout */}
           {collapsed ? (

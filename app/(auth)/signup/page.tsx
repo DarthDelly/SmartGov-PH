@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -14,21 +13,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Building2, Sun, CheckCircle2 } from "lucide-react";
+import { Building2, CheckCircle2 } from "lucide-react";
+import { AppLogo } from "@/components/ui/app-logo";
 
 const BARANGAY_OPTIONS = [
   "Brgy. San Isidro",
   "Brgy. Poblacion",
   "Brgy. San Roque",
-  "Brgy. Sta. Cruz",
-  "Brgy. Bagumbayan",
-  "Brgy. Maligaya",
-  "Brgy. Pag-asa",
-  "Brgy. Mabuhay",
-  "Brgy. Rizal",
-  "Brgy. Masagana",
-  "Brgy. Kalayaan",
-  "Brgy. Pagbabago",
 ];
 
 export default function SignUpPage() {
@@ -51,7 +42,6 @@ export default function SignUpPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
     if (form.password !== form.confirmPassword) {
       setError("Passwords do not match.");
       return;
@@ -60,87 +50,60 @@ export default function SignUpPage() {
       setError("Password must be at least 8 characters.");
       return;
     }
-
     setIsLoading(true);
     await new Promise((r) => setTimeout(r, 800));
     setIsLoading(false);
     setDone(true);
   };
 
+  /* ── Success state ── */
   if (done) {
     return (
-      <div className="w-full max-w-md animate-fade-in">
-        <div className="flex flex-col items-center mb-8 gap-3">
-          <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--brand-600)] shadow-lg">
-            <Sun className="text-white w-8 h-8" />
-            <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#EF4444] border-2 border-white dark:border-zinc-950" />
+      <div className="w-full max-w-lg animate-fade-in flex flex-col items-center gap-0">
+        <AppLogo size="lg" />
+
+        <div className="w-full rounded-2xl border border-[var(--surface-3)] bg-white dark:bg-zinc-900 shadow-sm p-8 flex flex-col items-center gap-5 text-center">
+          <div className="flex items-center justify-center w-14 h-14 rounded-full bg-emerald-50 dark:bg-emerald-950/20">
+            <CheckCircle2 className="w-7 h-7 text-emerald-600 dark:text-emerald-400" />
           </div>
-          <div className="text-center">
-            <h1 className="font-jakarta text-2xl font-bold text-[var(--text-primary)] tracking-tight">
-              SmartGov PH
-            </h1>
-            <p className="text-sm text-[var(--text-muted)] font-jakarta italic mt-0.5">
-              Padayon sa Paglambo
+          <div>
+            <p className="font-jakarta font-semibold text-[var(--text-primary)] text-lg">
+              Account submitted!
+            </p>
+            <p className="text-sm text-[var(--text-secondary)] mt-1.5 leading-relaxed">
+              Your registration is pending review. A barangay staff member will verify your account within 1–2 business days.
             </p>
           </div>
-        </div>
-
-        <Card className="shadow-md">
-          <CardContent className="pt-8 pb-8 flex flex-col items-center gap-4 text-center">
-            <div className="flex items-center justify-center w-14 h-14 rounded-full bg-emerald-50 dark:bg-emerald-950/20">
-              <CheckCircle2 className="w-7 h-7 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <div>
-              <p className="font-jakarta font-semibold text-[var(--text-primary)] text-lg">
-                Account created!
-              </p>
-              <p className="text-sm text-[var(--text-secondary)] mt-1 leading-relaxed">
-                Your registration has been submitted. A barangay staff member will verify your account within 1–2 business days.
-              </p>
-            </div>
-            <Button className="w-full mt-2" onClick={() => router.push("/login")}>
-              Back to sign in
-            </Button>
-          </CardContent>
-        </Card>
-
-        <div className="flex items-center justify-center gap-2 mt-6 text-[var(--text-muted)]">
-          <Building2 className="w-3.5 h-3.5" />
-          <p className="text-xs">Department of the Interior and Local Government</p>
+          <Button className="w-full font-medium h-10" onClick={() => router.push("/login")}>
+            Back to sign in
+          </Button>
         </div>
       </div>
     );
   }
 
+  /* ── Form ── */
   return (
-    <div className="w-full max-w-md animate-fade-in">
-      {/* Logo + wordmark */}
-      <div className="flex flex-col items-center mb-8 gap-3">
-        <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--brand-600)] shadow-lg">
-          <Sun className="text-white w-8 h-8" />
-          <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#EF4444] border-2 border-white dark:border-zinc-950" />
-        </div>
-        <div className="text-center">
-          <h1 className="font-jakarta text-2xl font-bold text-[var(--text-primary)] tracking-tight">
-            SmartGov PH
-          </h1>
-          <p className="text-sm text-[var(--text-muted)] font-jakarta italic mt-0.5">
-            Padayon sa Paglambo
+    <div className="w-full max-w-lg animate-fade-in flex flex-col items-center gap-0">
+
+      {/* Logo */}
+      <AppLogo size="lg" />
+
+      {/* Card */}
+      <div className="w-full rounded-2xl border border-[var(--surface-3)] bg-white dark:bg-zinc-900 shadow-sm overflow-hidden">
+
+        {/* Card header */}
+        <div className="px-8 pt-7 pb-1 text-left">
+          <h2 className="font-jakarta font-semibold text-[var(--text-primary)] text-lg leading-snug">
+            Create your account
+          </h2>
+          <p className="text-sm text-[var(--text-muted)] mt-0.5">
+            Register as a resident of your barangay.
           </p>
         </div>
-      </div>
 
-      <Card className="shadow-md">
         <form onSubmit={handleSubmit}>
-          <CardContent className="pt-6 space-y-4">
-            <div>
-              <p className="font-jakarta font-semibold text-[var(--text-primary)] text-base leading-tight">
-                Create your account
-              </p>
-              <p className="text-xs text-[var(--text-muted)] mt-0.5">
-                Register as a resident of your barangay.
-              </p>
-            </div>
+          <div className="px-8 pt-5 pb-2 space-y-4">
 
             {/* Name row */}
             <div className="grid grid-cols-2 gap-3">
@@ -148,25 +111,13 @@ export default function SignUpPage() {
                 <Label htmlFor="firstName" className="text-xs font-medium text-[var(--text-secondary)]">
                   First name
                 </Label>
-                <Input
-                  id="firstName"
-                  placeholder="Maria"
-                  value={form.firstName}
-                  onChange={set("firstName")}
-                  required
-                />
+                <Input id="firstName" placeholder="Maria" value={form.firstName} onChange={set("firstName")} required />
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="lastName" className="text-xs font-medium text-[var(--text-secondary)]">
                   Last name
                 </Label>
-                <Input
-                  id="lastName"
-                  placeholder="Santos"
-                  value={form.lastName}
-                  onChange={set("lastName")}
-                  required
-                />
+                <Input id="lastName" placeholder="Santos" value={form.lastName} onChange={set("lastName")} required />
               </div>
             </div>
 
@@ -188,9 +139,7 @@ export default function SignUpPage() {
 
             {/* Barangay */}
             <div className="space-y-1.5">
-              <Label className="text-xs font-medium text-[var(--text-secondary)]">
-                Barangay
-              </Label>
+              <Label className="text-xs font-medium text-[var(--text-secondary)]">Barangay</Label>
               <Select
                 value={form.barangay}
                 onValueChange={(v) => setForm((f) => ({ ...f, barangay: v }))}
@@ -201,9 +150,7 @@ export default function SignUpPage() {
                 </SelectTrigger>
                 <SelectContent>
                   {BARANGAY_OPTIONS.map((b) => (
-                    <SelectItem key={b} value={b}>
-                      {b}
-                    </SelectItem>
+                    <SelectItem key={b} value={b}>{b}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -242,12 +189,14 @@ export default function SignUpPage() {
             </div>
 
             {error && (
-              <p className="text-xs text-red-600 dark:text-red-400 font-medium">{error}</p>
+              <div className="flex items-start gap-2 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30 px-3 py-2.5">
+                <p className="text-xs text-red-600 dark:text-red-400 font-medium leading-snug">{error}</p>
+              </div>
             )}
-          </CardContent>
+          </div>
 
-          <CardFooter className="flex flex-col gap-3 pb-6">
-            <Button type="submit" className="w-full font-medium" disabled={isLoading}>
+          <div className="px-8 pb-8 pt-4 flex flex-col gap-3">
+            <Button type="submit" className="w-full font-medium h-10" disabled={isLoading}>
               {isLoading ? (
                 <span className="flex items-center gap-2">
                   <span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
@@ -260,17 +209,15 @@ export default function SignUpPage() {
 
             <p className="text-xs text-center text-[var(--text-muted)]">
               Already have an account?{" "}
-              <Link href="/login" className="text-[var(--brand-600)] dark:text-[var(--brand-400)] font-medium hover:underline">
+              <Link
+                href="/login"
+                className="text-[var(--brand-600)] dark:text-[var(--brand-400)] font-medium hover:underline"
+              >
                 Sign in
               </Link>
             </p>
-          </CardFooter>
+          </div>
         </form>
-      </Card>
-
-      <div className="flex items-center justify-center gap-2 mt-6 text-[var(--text-muted)]">
-        <Building2 className="w-3.5 h-3.5" />
-        <p className="text-xs">Department of the Interior and Local Government</p>
       </div>
     </div>
   );

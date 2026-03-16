@@ -28,8 +28,13 @@ const ADMIN_ITEMS: NavItem[] = [
   { label: "Disaster Response", href: "/disaster", icon: "ShieldAlert" },
 ];
 
+const ACCOUNT_ITEMS: NavItem[] = [
+  { label: "Account", href: "/account", icon: "User" },
+  { label: "Settings", href: "/settings", icon: "Settings" },
+];
+
 export const NAV_ITEMS_BY_ROLE: Record<Role, NavItem[]> = {
-  resident: [...ALL_ROLES, ...RESIDENT_ITEMS],
-  staff: [...ALL_ROLES, ...STAFF_ITEMS],
-  admin: [...ALL_ROLES, ...ADMIN_ITEMS],
+  resident: [...ALL_ROLES, ...RESIDENT_ITEMS, ...ACCOUNT_ITEMS],
+  staff:    [...ALL_ROLES, ...STAFF_ITEMS,    ...ACCOUNT_ITEMS],
+  admin:    [...ALL_ROLES, ...ADMIN_ITEMS,    ...ACCOUNT_ITEMS],
 };
