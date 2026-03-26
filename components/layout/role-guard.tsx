@@ -9,7 +9,8 @@ interface RoleGuardProps {
 }
 
 export function RoleGuard({ allowedRoles, children, fallback = null }: RoleGuardProps) {
-  const { role } = useAuthStore();
+  const { user } = useAuthStore();
+  const role = user?.role ?? "resident";
   if (!allowedRoles.includes(role)) return <>{fallback}</>;
   return <>{children}</>;
 }

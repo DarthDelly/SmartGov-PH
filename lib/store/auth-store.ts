@@ -1,54 +1,76 @@
+"use client";
+
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
+import { api } from "@/lib/api";
 
 export type Role = "resident" | "staff" | "admin";
 
 export interface AuthUser {
-  name: string;
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  role: Role;
   barangay: string;
-  avatar?: string;
+  avatar: string;
 }
 
 interface AuthStore {
-  role: Role;
-  user: AuthUser;
+  user: AuthUser | null;
   isAuthenticated: boolean;
-  setRole: (role: Role) => void;
-  setUser: (user: AuthUser) => void;
-  login: (role: Role, user: AuthUser) => void;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  refreshAuth: () => Promise<boolean>;
+  clearAuth: () => void;
 }
-
-const DEFAULT_USERS: Record<Role, AuthUser> = {
-  resident: { name: "Maria Santos", barangay: "Brgy. San Isidro" },
-  staff: { name: "Juan dela Cruz", barangay: "Brgy. San Isidro" },
-  admin: { name: "Ana Reyes", barangay: "Municipality of Calamba" },
-};
 
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
-      role: "resident",
-      user: DEFAULT_USERS.resident,
+      user: null,
       isAuthenticated: false,
 
-      setRole: (role) =>
-        set({ role, user: DEFAULT_USERS[role] }),
+      login: async (email, password) => {
+        const res = await api.post("/api/auth/login/", { email, password });
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          throw new Error(body?.detail ?? "Login failed. Please try again.");
+        }
+        const user: AuthUser = await res.json();
+        set({ user, isAuthenticated: true });
+      },
 
-      setUser: (user) => set({ user }),
+      logout: async () => {
+        try {
+          await api.post("/api/auth/logout/");
+        } catch {
+          // Network error — still clear local state.
+        } finally {
+          set({ user: null, isAuthenticated: false });
+        }
+      },
 
-      login: (role, user) =>
-        set({ role, user, isAuthenticated: true }),
+      /**
+       * Called by the api.ts 401 interceptor. Attempts to refresh the access
+       * token via the refresh cookie. Returns true on success, false if the
+       * session is fully expired.
+       */
+      refreshAuth: async () => {
+        const res = await api.post("/api/auth/refresh/");
+        return res.ok;
+      },
 
-      logout: () =>
-        set({
-          role: "resident",
-          user: DEFAULT_USERS.resident,
-          isAuthenticated: false,
-        }),
+      clearAuth: () => set({ user: null, isAuthenticated: false }),
     }),
     {
       name: "smartgov-auth",
-    }
-  )
+      // Only persist non-sensitive public user info — no tokens.
+      partialize: (state) => ({
+        user: state.user,
+        isAuthenticated: state.isAuthenticated,
+      }),
+    },
+  ),
 );

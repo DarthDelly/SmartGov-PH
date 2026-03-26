@@ -6,55 +6,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useAuthStore, type Role } from "@/lib/store/auth-store";
+import { useAuthStore } from "@/lib/store/auth-store";
 import Link from "next/link";
 import { Building2, Sun } from "lucide-react";
-
-const ROLE_OPTIONS: { value: Role; label: string; description: string }[] = [
-  { value: "resident", label: "Resident", description: "Access permits, concerns & notifications" },
-  { value: "staff", label: "Barangay Staff", description: "Manage requests, residents & blotter" },
-  { value: "admin", label: "Municipal Admin", description: "Analytics, monitoring & oversight" },
-];
 
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [selectedRole, setSelectedRole] = useState<Role>("resident");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setIsLoading(true);
 
-    // Simulate brief loading, then set role and redirect
-    await new Promise((r) => setTimeout(r, 600));
-
-    const names: Record<Role, string> = {
-      resident: "Maria Santos",
-      staff: "Juan dela Cruz",
-      admin: "Ana Reyes",
-    };
-    const barangays: Record<Role, string> = {
-      resident: "Brgy. San Isidro",
-      staff: "Brgy. San Isidro",
-      admin: "Municipality of Calamba",
-    };
-
-    login(selectedRole, {
-      name: names[selectedRole],
-      barangay: barangays[selectedRole],
-    });
-
-    router.push("/dashboard");
+    try {
+      await login(email, password);
+      router.push("/dashboard");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An unexpected error occurred.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -79,6 +55,13 @@ export default function LoginPage() {
       <Card className="shadow-md">
         <form onSubmit={handleSignIn}>
           <CardContent className="pt-6 space-y-4">
+            {/* Inline API error */}
+            {error && (
+              <div className="rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3">
+                <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
+              </div>
+            )}
+
             {/* Email */}
             <div className="space-y-1.5">
               <Label htmlFor="email" className="text-xs font-medium text-[var(--text-secondary)]">
@@ -117,36 +100,6 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 required
               />
-            </div>
-
-            {/* DEV role switcher */}
-            <div className="space-y-1.5 pt-1">
-              <div className="flex items-center gap-2">
-                <Label className="text-xs font-medium text-[var(--text-secondary)]">
-                  Role
-                </Label>
-                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 uppercase tracking-wide">
-                  Dev only
-                </span>
-              </div>
-              <Select
-                value={selectedRole}
-                onValueChange={(v) => setSelectedRole(v as Role)}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {ROLE_OPTIONS.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      <div>
-                        <div className="font-medium">{opt.label}</div>
-                        <div className="text-xs text-[var(--text-muted)]">{opt.description}</div>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
             </div>
           </CardContent>
 

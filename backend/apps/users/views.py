@@ -10,7 +10,7 @@ from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .authentication import CookieJWTAuthentication, enforce_csrf
-from .serializers import UserSerializer
+from .serializers import SignupSerializer, UserSerializer
 
 
 def _set_token_cookies(response: Response, refresh: RefreshToken) -> None:
@@ -49,6 +49,32 @@ def _delete_token_cookies(response: Response) -> None:
     """Clear both token cookies and the CSRF cookie on logout."""
     for name in ("access_token", "refresh_token", "csrftoken"):
         response.delete_cookie(name, path="/")
+
+
+class SignupView(APIView):
+    """
+    POST /api/auth/signup/
+
+    Creates a new resident account. All validation is handled by
+    SignupSerializer. Role is hardcoded to 'resident' — it cannot
+    be supplied by the client. No cookies are set; no auto-login.
+    """
+
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = SignupSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            serializer.save()
+        except Exception:
+            return Response(
+                {"detail": "Account creation failed. Please try again."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+        return Response({"detail": "Account created."}, status=status.HTTP_201_CREATED)
 
 
 class LoginView(APIView):

@@ -50,11 +50,14 @@ interface TopnavProps {
 
 export function Topnav({ onMenuClick }: TopnavProps) {
   const router = useRouter();
-  const { user, role, logout } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const { theme, setTheme } = useTheme();
   const breadcrumbs = useBreadcrumbs();
 
-  const initials = user.name
+  const role = user?.role ?? "resident";
+  const displayName = [user?.first_name, user?.last_name].filter(Boolean).join(" ") || user?.email || "";
+
+  const initials = displayName
     .split(" ")
     .map((n) => n[0])
     .join("")
@@ -72,8 +75,8 @@ export function Topnav({ onMenuClick }: TopnavProps) {
     admin: "Municipal Admin",
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     router.push("/login");
   };
 
@@ -137,15 +140,15 @@ export function Topnav({ onMenuClick }: TopnavProps) {
                 <AvatarFallback className="text-xs">{initials}</AvatarFallback>
               </Avatar>
               <div className="hidden sm:block text-left">
-                <p className="text-xs font-medium text-[var(--text-primary)] leading-none">{user.name}</p>
-                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 truncate max-w-[120px]">{user.barangay}</p>
+                <p className="text-xs font-medium text-[var(--text-primary)] leading-none">{displayName}</p>
+                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 truncate max-w-[120px]">{user?.barangay}</p>
               </div>
             </button>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end" className="w-52">
             <DropdownMenuLabel className="pb-1">
-              <p className="text-sm font-medium">{user.name}</p>
+              <p className="text-sm font-medium">{displayName}</p>
               <span
                 className={cn(
                   "inline-flex mt-1 px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide",
