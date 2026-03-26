@@ -288,9 +288,11 @@ function AdminDashboard({ name }: { name: string }) {
 
 /* ─── Page ───────────────────────────────────────────────────────────── */
 export default function DashboardPage() {
-  const { role, user } = useAuthStore();
+  const { user } = useAuthStore();
+  const role = user?.role ?? "resident";
+  const displayName = [user?.first_name, user?.last_name].filter(Boolean).join(" ") || user?.email || "";
 
-  if (role === "staff") return <StaffDashboard name={user.name} />;
-  if (role === "admin") return <AdminDashboard name={user.name} />;
-  return <ResidentDashboard name={user.name} />;
+  if (role === "staff") return <StaffDashboard name={displayName} />;
+  if (role === "admin") return <AdminDashboard name={displayName} />;
+  return <ResidentDashboard name={displayName} />;
 }

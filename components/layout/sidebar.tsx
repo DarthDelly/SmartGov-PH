@@ -48,18 +48,21 @@ interface SidebarProps {
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const { role, user, logout } = useAuthStore();
+  const { user, logout } = useAuthStore();
+  const role = user?.role ?? "resident";
   const navItems = NAV_ITEMS_BY_ROLE[role];
 
-  const initials = user.name
+  const displayName = [user?.first_name, user?.last_name].filter(Boolean).join(" ") || user?.email || "";
+
+  const initials = displayName
     .split(" ")
     .map((n) => n[0])
     .join("")
     .slice(0, 2)
     .toUpperCase();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     router.push("/login");
   };
 
@@ -169,8 +172,8 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             </Avatar>
             {!collapsed && (
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-[var(--text-primary)] truncate">{user.name}</p>
-                <p className="text-[10px] text-[var(--text-muted)] truncate">{user.barangay}</p>
+                <p className="text-xs font-medium text-[var(--text-primary)] truncate">{displayName}</p>
+                <p className="text-[10px] text-[var(--text-muted)] truncate">{user?.barangay}</p>
               </div>
             )}
           </div>

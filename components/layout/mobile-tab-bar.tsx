@@ -48,7 +48,8 @@ const MOBILE_TABS: Record<Role, { label: string; href: string; icon: string }[]>
 
 export function MobileTabBar() {
   const pathname = usePathname();
-  const { role } = useAuthStore();
+  const { user } = useAuthStore();
+  const role = user?.role ?? "resident";
   const tabs = MOBILE_TABS[role];
 
   return (
